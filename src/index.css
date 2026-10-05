@@ -1,0 +1,103 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────────────
+   Orbital Guard — mission-control design tokens
+   ───────────────────────────────────────────────────────────── */
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
+
+  /* Deep-space surfaces */
+  --color-void: #05070d;
+  --color-deep: #080b14;
+  --color-panel: #0c111d;
+  --color-raised: #121a2a;
+  --color-line: #1c2740;
+  --color-line-soft: #162034;
+
+  /* Text */
+  --color-ink: #e6edf9;
+  --color-ink-dim: #93a3c0;
+  --color-ink-faint: #5c6b87;
+
+  /* Signal colors */
+  --color-signal: #22d3ee;   /* cyan  — primary / nominal telemetry */
+  --color-plasma: #818cf8;   /* indigo — secondary series */
+  --color-solar: #fbbf24;    /* amber — caution */
+  --color-alert: #f43f5e;    /* rose  — critical */
+  --color-nominal: #34d399;  /* green — healthy */
+  --color-orbit: #38bdf8;    /* sky   — orbit paths */
+}
+
+@layer base {
+  html, body, #root {
+    height: 100%;
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-void);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overscroll-behavior: none;
+  }
+
+  /* Slim, dark scrollbars everywhere */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-line) transparent;
+  }
+  *::-webkit-scrollbar { width: 8px; height: 8px; }
+  *::-webkit-scrollbar-track { background: transparent; }
+  *::-webkit-scrollbar-thumb {
+    background: var(--color-line);
+    border-radius: 4px;
+  }
+  *::-webkit-scrollbar-thumb:hover { background: #2a3a5c; }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-signal) 35%, transparent);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-signal);
+    outline-offset: 2px;
+  }
+}
+
+@layer utilities {
+  /* Starfield backdrop used by the app shell */
+  .bg-starfield {
+    background-image:
+      radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,.35), transparent),
+      radial-gradient(1px 1px at 75% 15%, rgba(255,255,255,.25), transparent),
+      radial-gradient(1px 1px at 45% 70%, rgba(255,255,255,.20), transparent),
+      radial-gradient(1.5px 1.5px at 88% 62%, rgba(255,255,255,.30), transparent),
+      radial-gradient(1px 1px at 12% 85%, rgba(255,255,255,.22), transparent),
+      radial-gradient(1px 1px at 62% 42%, rgba(255,255,255,.18), transparent);
+    background-size: 700px 700px;
+  }
+
+  .grid-overlay {
+    background-image:
+      linear-gradient(to right, rgba(56,189,248,.045) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(56,189,248,.045) 1px, transparent 1px);
+    background-size: 44px 44px;
+  }
+
+  .text-glow { text-shadow: 0 0 18px currentColor; }
+
+  @keyframes pulse-ring {
+    0%   { transform: scale(.85); opacity: .9; }
+    70%  { transform: scale(1.9); opacity: 0; }
+    100% { transform: scale(1.9); opacity: 0; }
+  }
+  .animate-pulse-ring { animation: pulse-ring 2s cubic-bezier(0, 0, .2, 1) infinite; }
+
+  @keyframes sweep {
+    from { transform: translateX(-100%); }
+    to   { transform: translateX(100%); }
+  }
+  .animate-sweep { animation: sweep 2.2s linear infinite; }
+}
